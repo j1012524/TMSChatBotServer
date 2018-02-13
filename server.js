@@ -24,12 +24,11 @@ if (process.env.NODE_ENV === 'development') {
 
 var port = process.env.PORT || 3001;
 
-app.post('/chats', (req, res) => {
+app.post('/chats', cors(), (req, res) => {
   var todo = {
     text:req.body.text,
     clientAccessToken: req.body.clientAccessToken,
     sessionID: req.body.sessionID
-
   };
 
   var apiaiServer = apiai(todo.clientAccessToken);
@@ -39,31 +38,22 @@ app.post('/chats', (req, res) => {
   });
 
   request.on('response', function(response) {
-    console.log(response);
-    var options_auth = { user: "MOBDRVR", password: "MOBDRVR" };
-    var client = new restClient(options_auth);
-
-    var args = {
-        data: { test: "hello" },
-        headers: { "Content-Type": "application/json" }
-    };
-
-    client.post("http://321dq72j.jda.corp.local:7010/base/rest/TRACKANDTRACE/ChatBot/1.0", args, function (data, response) {
-        // parsed response body as js object
-        console.log(data);
-        // raw response
-        console.log(response);
-    });
-
-    // // registering remote methods
-    // client.registerMethod("postMethod", "http://321dq72j.jda.corp.local:7010/base/rest/TRACKANDTRACE/ChatBot/1.0", "POST");
+    res.send({response});
+    //console.log(response);
+    // var options_auth = { user: "MOBDRVR", password: "MOBDRVR" };
+    // var client = new restClient(options_auth);
     //
-    // client.methods.postMethod(args, function (data, response) {
+    // var args = {
+    //     data: { test: "hello" },
+    //     headers: { "Content-Type": "application/json" }
+    // };
+    //
+    // client.post("http://321dq72j.jda.corp.local:7010/base/rest/TRACKANDTRACE/ChatBot/1.0", args, function (data, response) {
     //     // parsed response body as js object
     //     console.log(data);
-    //     // raw response
-    //     console.log(response);
-    // });
+        // raw response
+      //  console.log(response);
+    //});
   });
 
   request.on('error', function(error) {
@@ -71,14 +61,6 @@ app.post('/chats', (req, res) => {
   });
 
   request.end();
-
-  res.send();
-
-  // todo.save().then((doc) => {
-  //   res.send(doc);
-  // }, (e) => {
-  //   res.status(400).send(e);
-  // });
 });
 
 http.createServer(app).listen(port, function (err) {
