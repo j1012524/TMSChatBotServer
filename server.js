@@ -1,3 +1,5 @@
+//require('./config/config');
+
 var logger = require('morgan'),
   cors = require('cors'),
   http = require('http'),
@@ -23,6 +25,12 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 var port = process.env.PORT || 3001;
+
+app.get('/', (req, res) => {
+  res.send({
+    errorMessage: 'Unable to handle request'
+  });
+});
 
 app.post('/chats', cors(), (req, res) => {
   var todo = {
