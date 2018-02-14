@@ -28,7 +28,7 @@ var port = process.env.PORT || 3001;
 
 app.get('/', (req, res) => {
   res.send({
-    errorMessage: 'Unable to handle request'
+    success: 'handled well'
   });
 });
 
