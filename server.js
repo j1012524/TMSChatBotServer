@@ -52,7 +52,7 @@ app.post('/chats', cors(), (req, res) => {
         //  console.log(response);
         //  var options_auth = { user: "VENTURE", password: "VENTURE" };
 
-        if (!response.result.actionIncomplete) {
+        if (!response.result.actionIncomplete && response.result.metadata.intentName != "Default Fallback Intent") {
             console.log("Action is complete");
             var args = {
                 data: { botResponse: response },
