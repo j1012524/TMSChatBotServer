@@ -1,44 +1,45 @@
 {
-  "name": "tmschatbotserver",
-  "version": "1.0.0",
-  "description": "",
-  "main": "server.js",
-  "scripts": {
-    "start": "node server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/j1012524/TMSChatBotServer.git"
-  },
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/j1012524/TMSChatBotServer/issues"
-  },
-  "homepage": "https://github.com/j1012524/TMSChatBotServer#readme",
-  "dependencies": {
-    "apiai": "^4.0.3",
-    "bcryptjs": "^2.4.3",
-    "body-parser": "^1.18.2",
-    "cors": "^2.8.4",
-    "crypto-js": "^3.1.9-1",
-    "express": "^4.16.2",
-    "helmet": "^3.10.0",
-    "jsonwebtoken": "^8.1.1",
-    "lodash": "^4.17.5",
-    "moment": "^2.20.1",
-    "mongodb": "^3.0.2",
-    "mongoose": "^5.0.3",
-    "morgan": "^1.9.0",
-    "node-rest-client": "^3.1.0",
-    "soap": "^0.23.0",
-    "socket.io": "^2.0.4",
-    "validator": "^9.4.0",
-    "yargs": "^11.0.0"
-  },
-  "devDependencies": {
-    "errorhandler": "^1.5.0",
-    "nodemon": "^1.14.12"
-  }
+    "name": "tmschatbotserver",
+    "version": "1.0.0",
+    "description": "",
+    "main": "server.js",
+    "scripts": {
+        "start": "node server.js",
+        "debug": "node --nolazy --inspect-brk=9229 server.js",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/j1012524/TMSChatBotServer.git"
+    },
+    "author": "",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/j1012524/TMSChatBotServer/issues"
+    },
+    "homepage": "https://github.com/j1012524/TMSChatBotServer#readme",
+    "dependencies": {
+        "apiai": "^4.0.3",
+        "bcryptjs": "^2.4.3",
+        "body-parser": "^1.18.2",
+        "cors": "^2.8.4",
+        "crypto-js": "^3.1.9-1",
+        "express": "^4.16.2",
+        "helmet": "^3.10.0",
+        "jsonwebtoken": "^8.1.1",
+        "lodash": "^4.17.5",
+        "moment": "^2.20.1",
+        "mongodb": "^3.0.2",
+        "mongoose": "^5.0.3",
+        "morgan": "^1.9.0",
+        "node-rest-client": "^3.1.0",
+        "soap": "^0.23.0",
+        "socket.io": "^2.0.4",
+        "validator": "^9.4.0",
+        "yargs": "^11.0.0"
+    },
+    "devDependencies": {
+        "errorhandler": "^1.5.0",
+        "nodemon": "^1.14.12"
+    }
 }

@@ -1,16 +1,16 @@
 //require('./config/config');
 
 var logger = require('morgan'),
-  cors = require('cors'),
-  http = require('http'),
-  express = require('express'),
-  //errorhandler = require('errorhandler'),
-  bodyParser = require('body-parser'),
-  mongoose = require('mongoose'),
-  apiai = require('apiai'),
-  restClient = require('node-rest-client').Client,
-  helmet = require('helmet');
-  //config = require('./config.json');
+    cors = require('cors'),
+    http = require('http'),
+    express = require('express'),
+    //errorhandler = require('errorhandler'),
+    bodyParser = require('body-parser'),
+    mongoose = require('mongoose'),
+    apiai = require('apiai'),
+    restClient = require('node-rest-client').Client,
+    helmet = require('helmet');
+//config = require('./config.json');
 
 let app = express();
 app.use(helmet());
@@ -27,50 +27,58 @@ app.use(cors());
 var port = process.env.PORT || 3001;
 
 app.get('/', (req, res) => {
-  res.send({
-    success: 'handled well'
-  });
+    res.send({
+        success: 'handled well'
+    });
 });
 
 app.post('/chats', cors(), (req, res) => {
-  var todo = {
-    text:req.body.text,
-    clientAccessToken: req.body.clientAccessToken,
-    sessionID: req.body.sessionID
-  };
+    var todo = {
+        text: req.body.text,
+        clientAccessToken: req.body.clientAccessToken,
+        sessionID: req.body.sessionID
+    };
 
-  var apiaiServer = apiai(todo.clientAccessToken);
+    var apiaiServer = apiai(todo.clientAccessToken);
 
-  var request = apiaiServer.textRequest(todo.text, {
-      sessionId: todo.sessionID
-  });
+    var request = apiaiServer.textRequest(todo.text, {
+        sessionId: todo.sessionID
+    });
 
-  request.on('response', function(response) {
-    res.send({response});
-    //console.log(response);
-    // var options_auth = { user: "MOBDRVR", password: "MOBDRVR" };
-    // var client = new restClient(options_auth);
-    //
-    // var args = {
-    //     data: { test: "hello" },
-    //     headers: { "Content-Type": "application/json" }
-    // };
-    //
-    // client.post("http://321dq72j.jda.corp.local:7010/base/rest/TRACKANDTRACE/ChatBot/1.0", args, function (data, response) {
-    //     // parsed response body as js object
-    //     console.log(data);
-        // raw response
-      //  console.log(response);
-    //});
-  });
+    var client = new restClient();
 
-  request.on('error', function(error) {
-      console.log(error);
-  });
+    request.on('response', function(response) {
+        //res.send({response});
+        //  console.log(response);
+        //  var options_auth = { user: "VENTURE", password: "VENTURE" };
 
-  request.end();
+        if (!response.result.actionIncomplete) {
+            console.log("Action is complete");
+            var args = {
+                data: { botResponse: response },
+                headers: { "Content-Type": "application/json" }
+            };
+
+            client.post("http://j1008026w7lt:7001/tm/rest/bot/user/token?user=VENTURE", args, function(data, response) {
+                // parsed response body as js object
+                console.log(data);
+                let responseFromServer = {
+                    result: { fulfillment: { speech: "From server" } }
+                };
+                res.send({ responseFromServer });
+            });
+        } else {
+            res.send({ response });
+        }
+    });
+
+    request.on('error', function(error) {
+        console.log(error);
+    });
+
+    request.end();
 });
 
-http.createServer(app).listen(port, function (err) {
-  console.log('listening in http://localhost:' + port);
+http.createServer(app).listen(port, function(err) {
+    console.log('listening in http://localhost:' + port);
 });
