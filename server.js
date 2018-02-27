@@ -33,6 +33,7 @@ app.get('/', (req, res) => {
 });
 
 app.post('/chats', cors(), (req, res) => {
+    let userRole = req.body.userRole;
     var todo = {
         text: req.body.text,
         clientAccessToken: req.body.clientAccessToken,
@@ -59,7 +60,14 @@ app.post('/chats', cors(), (req, res) => {
                 headers: { "Content-Type": "application/json" }
             };
 
-            client.post("http://j1008026w7lt:7001/tm/rest/bot/user/token?user=VENTURE", args, function(data, response) {
+            let restURL = '';
+
+            if (userRole == 'MOBDRVR') {
+                restURL = 'http://j1006871w7lt.jda.corp.local:20181/tm/rest/user/processDriverRequest';
+            } else if (userRole == 'VENTURE') {
+                restURL = 'http://j1006871w7lt.jda.corp.local:20181/tm/rest/user/processEmployeeRequest';
+            }
+            client.post(restURL, args, function(data, response) {
                 // parsed response body as js object
                 console.log(data);
                 let responseFromServer = {
