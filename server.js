@@ -53,10 +53,12 @@ app.post('/chats', cors(), (req, res) => {
         //  console.log(response);
         //  var options_auth = { user: "VENTURE", password: "VENTURE" };
 
-        if (!response.result.actionIncomplete && response.result.metadata.intentName != "Default Fallback Intent") {
+        if (!response.result.actionIncomplete &&
+            response.result.metadata.intentName != "Default Fallback Intent" &&
+            response.result.action.split('.')[0] != 'smalltalk') {
             console.log("Action is complete");
             var args = {
-                data: { botResponse: response },
+                data: response,
                 headers: { "Content-Type": "application/json" }
             };
 
@@ -70,10 +72,10 @@ app.post('/chats', cors(), (req, res) => {
             client.post(restURL, args, function(data, response) {
                 // parsed response body as js object
                 console.log(data);
-                let responseFromServer = {
-                    result: { fulfillment: { speech: "From server" } }
+                response = {
+                    result: { fulfillment: { speech: data.toString() } }
                 };
-                res.send({ responseFromServer });
+                res.send({ response });
             });
         } else {
             res.send({ response });
