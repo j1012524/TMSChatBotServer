@@ -64,16 +64,22 @@ app.post('/chats', cors(), (req, res) => {
 
             let restURL = '';
 
-            if (userRole == 'MOBDRVR') {
+            if (userRole == 'driver') {
                 restURL = 'http://j1006871w7lt.jda.corp.local:20181/tm/rest/user/processDriverRequest';
-            } else if (userRole == 'VENTURE') {
+            } else if (userRole == 'customer') {
                 restURL = 'http://j1006871w7lt.jda.corp.local:20181/tm/rest/user/processEmployeeRequest';
             }
             client.post(restURL, args, function(data, response) {
                 // parsed response body as js object
-                console.log(data);
+                //console.log(data);
+                let tmResponse = '';
+                if (data.queryType != undefined) {
+                    tmResponse = data.queryType + '\n' + data.value;
+                } else {
+                    tmResponse = data.value;
+                }
                 response = {
-                    result: { fulfillment: { speech: data.toString() } }
+                    result: { fulfillment: { speech: tmResponse } }
                 };
                 res.send({ response });
             });
